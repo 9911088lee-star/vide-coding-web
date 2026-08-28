@@ -85,6 +85,8 @@
     <meta name="twitter:description" content="探索樸門設計（Permaculture）的智慧，學習廚餘堆肥、食物森林與永續生活實作，重塑人與土地的連結。">
     <meta name="twitter:image" content="https://9911088lee-star.github.io/vide-coding-web/og-cover.png">
     <meta name="twitter:image:alt" content="樸門永續設計推廣網形象圖">
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <style>
         /* 基礎樣式重置 */
         * {
@@ -641,5 +643,91 @@
         <p>&copy; 2026 樸門永續設計推廣網 Permaculture Hub. All rights reserved.</p>
     </footer>
 
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!window.gsap || !window.ScrollTrigger) return;
+
+            gsap.registerPlugin(ScrollTrigger);
+            const motion = gsap.matchMedia();
+
+            motion.add(
+                { reduceMotion: '(prefers-reduced-motion: reduce)' },
+                (context) => {
+                    if (context.conditions.reduceMotion) return;
+
+                    gsap.timeline({ defaults: { ease: 'power3.out' } })
+                        .from('.hero-cover', { scale: 1.08, autoAlpha: 0, duration: 1.1 })
+                        .from('.hero-content h1', { y: 32, autoAlpha: 0, duration: 0.7 }, '-=0.5')
+                        .from('.hero-content p', { y: 18, autoAlpha: 0, duration: 0.55 }, '-=0.38');
+
+                    const sections = gsap.utils.toArray('main > .container');
+                    sections.forEach((section) => {
+                        gsap.from(section, {
+                            y: 36,
+                            autoAlpha: 0,
+                            duration: 0.7,
+                            ease: 'power2.out',
+                            scrollTrigger: {
+                                trigger: section,
+                                start: 'top 85%',
+                                once: true
+                            }
+                        });
+                    });
+
+                    const revealItems = gsap.utils.toArray(
+                        '.card, .benefits-list li, .faq-list details, .portfolio-card'
+                    );
+                    gsap.set(revealItems, { y: 22, autoAlpha: 0, willChange: 'transform, opacity' });
+                    ScrollTrigger.batch(revealItems, {
+                        start: 'top 88%',
+                        once: true,
+                        batchMax: 4,
+                        onEnter: (elements) => gsap.to(elements, {
+                            y: 0,
+                            autoAlpha: 1,
+                            duration: 0.55,
+                            ease: 'power2.out',
+                            stagger: 0.1,
+                            overwrite: 'auto',
+                            clearProps: 'willChange'
+                        })
+                    });
+
+                    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                        const interactiveElements = gsap.utils.toArray(
+                            'a, button, .card, .portfolio-card'
+                        );
+                        interactiveElements.forEach((element) => {
+                            const isCard = element.matches('.card, .portfolio-card');
+                            const lift = isCard ? -8 : -2;
+                            const scale = isCard ? 1.015 : 1.02;
+
+                            element.addEventListener('pointerenter', () => {
+                                gsap.to(element, {
+                                    y: lift,
+                                    scale,
+                                    duration: 0.25,
+                                    ease: 'power2.out',
+                                    overwrite: 'auto'
+                                });
+                            });
+                            element.addEventListener('pointerleave', () => {
+                                gsap.to(element, {
+                                    y: 0,
+                                    scale: 1,
+                                    duration: 0.3,
+                                    ease: 'power2.out',
+                                    overwrite: 'auto'
+                                });
+                            });
+                        });
+                    }
+
+                    window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+                }
+            );
+        });
+    </script>
 </body>
 </html>
