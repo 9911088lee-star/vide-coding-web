@@ -50,14 +50,55 @@
         }
     </script>
     <style>
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
         body {
             font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background-color: #fafaf9;
+            scroll-behavior: smooth;
+        }
+        html {
+            scroll-behavior: smooth;
         }
         .hero-pattern {
             background-color: #20422a;
             background-image: radial-gradient(#347c48 1px, transparent 1px), radial-gradient(#347c48 1px, #20422a 1px);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
+        }
+        /* Premium typography refinement */
+        h1, h2, h3, h4, h5, h6 {
+            letter-spacing: -0.02em;
+            font-weight: 700;
+        }
+        p, li {
+            line-height: 1.6;
+            color: #57534e;
+        }
+        /* Refined shadow system */
+        .shadow-premium {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        .shadow-premium-lg {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        /* Improved transitions */
+        a, button, input, select, textarea {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Consistent border styling */
+        .border-premium {
+            border-color: rgba(120, 113, 108, 0.12);
+        }
+        /* Focus states for accessibility */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 124, 72, 0.1);
+        }
+        button:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
@@ -79,33 +120,33 @@
     </div>
 
     <!-- Navbar Header -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-earth-100 shadow-sm transition-all duration-200">
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-lg border-b border-stone-200/50 shadow-sm transition-all duration-300 hover:shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <a href="#" class="flex items-center gap-3 group">
-                    <div class="w-11 h-11 rounded-xl bg-leaf-600 text-white flex items-center justify-center shadow-md shadow-leaf-600/30 group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-seedling text-2xl"></i>
+                    <div class="w-11 h-11 rounded-xl bg-leaf-700 text-white flex items-center justify-center shadow-lg shadow-leaf-700/20 group-hover:scale-110 group-hover:shadow-xl transition-all">
+                        <i class="fa-solid fa-sprout text-lg"></i>
                     </div>
                     <div>
-                        <span class="text-xl font-black text-leaf-900 tracking-tight block">樸門永續設計</span>
-                        <span class="text-xs text-earth-600 font-medium tracking-wider uppercase block">Permaculture Hub</span>
+                        <span class="text-lg font-bold text-stone-900 tracking-tight block leading-tight">樸門永續設計</span>
+                        <span class="text-xs text-stone-500 font-medium tracking-widest uppercase block">Permaculture</span>
                     </div>
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
-                    <a href="#about" class="px-3 py-2 text-stone-700 hover:text-leaf-600 font-medium rounded-lg hover:bg-leaf-50 transition-colors">樸門核心</a>
-                    <a href="#compost" class="px-3 py-2 text-stone-700 hover:text-leaf-600 font-medium rounded-lg hover:bg-leaf-50 transition-colors">廚餘回收箱</a>
-                    <a href="#courses" class="px-3 py-2 text-stone-700 hover:text-leaf-600 font-medium rounded-lg hover:bg-leaf-50 transition-colors">課程介紹</a>
-                    <a href="#tools" class="px-3 py-2 text-stone-700 hover:text-leaf-600 font-medium rounded-lg hover:bg-leaf-50 transition-colors">實作工具</a>
-                    <a href="#faq" class="px-3 py-2 text-stone-700 hover:text-leaf-600 font-medium rounded-lg hover:bg-leaf-50 transition-colors">常見問題</a>
+                <nav class="hidden md:flex items-center space-x-0.5">
+                    <a href="#about" class="px-4 py-2 text-stone-600 hover:text-leaf-700 font-medium rounded-lg hover:bg-stone-100/50 transition-all duration-300">樸門核心</a>
+                    <a href="#compost" class="px-4 py-2 text-stone-600 hover:text-leaf-700 font-medium rounded-lg hover:bg-stone-100/50 transition-all duration-300">廚餘回收箱</a>
+                    <a href="#courses" class="px-4 py-2 text-stone-600 hover:text-leaf-700 font-medium rounded-lg hover:bg-stone-100/50 transition-all duration-300">課程介紹</a>
+                    <a href="#tools" class="px-4 py-2 text-stone-600 hover:text-leaf-700 font-medium rounded-lg hover:bg-stone-100/50 transition-all duration-300">實作工具</a>
+                    <a href="#faq" class="px-4 py-2 text-stone-600 hover:text-leaf-700 font-medium rounded-lg hover:bg-stone-100/50 transition-all duration-300">常見問題</a>
                 </nav>
 
                 <!-- Action Button -->
                 <div class="hidden md:flex items-center gap-3">
-                    <a href="#register" class="bg-leaf-600 hover:bg-leaf-700 text-white font-semibold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2">
-                        <i class="fa-solid fa-pen-to-square"></i>
+                    <a href="#register" class="bg-leaf-700 hover:bg-leaf-800 text-white font-semibold px-6 py-2.5 rounded-lg shadow-lg shadow-leaf-700/20 hover:shadow-xl transition-all duration-300 flex items-center gap-2 active:scale-95">
+                        <i class="fa-solid fa-pen-to-square text-sm"></i>
                         <span>立即報名</span>
                     </a>
                 </div>
@@ -205,7 +246,7 @@
     </section>
 
     <!-- Section 1: Permaculture Ethics & Principles -->
-    <section id="about" class="py-20 bg-white">
+    <section id="about" class="py-32 bg-white/50 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <span class="text-leaf-600 font-bold text-sm tracking-widest uppercase bg-leaf-50 px-3 py-1 rounded-full border border-leaf-200">倫理與心法</span>
@@ -215,62 +256,62 @@
                 </p>
             </div>
 
-            <!-- 3 Core Ethics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- 3 Core Ethics Cards - Asymmetric Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
                 <!-- Ethic 1 -->
-                <div class="bg-earth-50 border border-earth-200 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group">
+                <div class="bg-white/60 border border-stone-200/60 rounded-2xl p-8 hover:shadow-lg hover:bg-white transition-all duration-300 hover:-translate-y-0.5 flex flex-col justify-between group backdrop-blur-sm">
                     <div>
-                        <div class="w-14 h-14 rounded-2xl bg-leaf-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-leaf-600/30 mb-6 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-2xl bg-leaf-700/90 text-white flex items-center justify-center text-lg shadow-lg shadow-leaf-700/15 mb-6 group-hover:scale-110 group-hover:shadow-xl transition-all">
                             <i class="fa-solid fa-earth-americas"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-stone-900 mb-3">1. 照顧地球 (Earth Care)</h3>
-                        <p class="text-stone-600 text-sm leading-relaxed">
+                        <h3 class="text-lg font-bold text-stone-900 mb-3 leading-tight">照顧地球</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed mb-4">
                             維護所有生物生命系統，重塑土壤肥力、水資源涵養與空氣品質。不使用化學毒素，尊重生命的自然運作規律。
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-earth-200/80 text-xs text-leaf-700 font-semibold flex items-center gap-1">
+                    <div class="pt-4 border-t border-stone-200/50 text-xs text-leaf-700 font-medium flex items-center gap-1 group-hover:text-leaf-800 transition-colors">
                         <span>實踐方式：厚層堆肥、保水聚水設計</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
 
                 <!-- Ethic 2 -->
-                <div class="bg-earth-50 border border-earth-200 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group">
+                <div class="bg-white/60 border border-stone-200/60 rounded-2xl p-8 hover:shadow-lg hover:bg-white transition-all duration-300 hover:-translate-y-0.5 flex flex-col justify-between group backdrop-blur-sm">
                     <div>
-                        <div class="w-14 h-14 rounded-2xl bg-amber-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-amber-600/30 mb-6 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-700/90 text-white flex items-center justify-center text-lg shadow-lg shadow-amber-700/15 mb-6 group-hover:scale-110 group-hover:shadow-xl transition-all">
                             <i class="fa-solid fa-people-roof"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-stone-900 mb-3">2. 照顧人類 (People Care)</h3>
-                        <p class="text-stone-600 text-sm leading-relaxed">
+                        <h3 class="text-lg font-bold text-stone-900 mb-3 leading-tight">照顧人類</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed mb-4">
                             確保人們能取得潔淨的食物、乾淨的水源、舒適的居住空間與溫暖的社群支援，獲得生理與身心的真正健康。
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-earth-200/80 text-xs text-amber-700 font-semibold flex items-center gap-1">
+                    <div class="pt-4 border-t border-stone-200/50 text-xs text-amber-700 font-medium flex items-center gap-1 group-hover:text-amber-800 transition-colors">
                         <span>實踐方式：陽台食物森林、自給自足</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
 
                 <!-- Ethic 3 -->
-                <div class="bg-earth-50 border border-earth-200 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group">
+                <div class="bg-white/60 border border-stone-200/60 rounded-2xl p-8 hover:shadow-lg hover:bg-white transition-all duration-300 hover:-translate-y-0.5 flex flex-col justify-between group backdrop-blur-sm">
                     <div>
-                        <div class="w-14 h-14 rounded-2xl bg-earth-700 text-white flex items-center justify-center text-2xl shadow-lg shadow-earth-700/30 mb-6 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-2xl bg-stone-700/90 text-white flex items-center justify-center text-lg shadow-lg shadow-stone-700/15 mb-6 group-hover:scale-110 group-hover:shadow-xl transition-all">
                             <i class="fa-solid fa-hand-holding-hand"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-stone-900 mb-3">3. 分享多餘 (Fair Share)</h3>
-                        <p class="text-stone-600 text-sm leading-relaxed">
+                        <h3 class="text-lg font-bold text-stone-900 mb-3 leading-tight">分享多餘</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed mb-4">
                             控管消費與資源消耗，將剩餘的資源（種子、肥料、時間、智慧）回饋給地球與社群，促成豐盛且永續的循環。
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-earth-200/80 text-xs text-earth-800 font-semibold flex items-center gap-1">
+                    <div class="pt-4 border-t border-stone-200/50 text-xs text-stone-700 font-medium flex items-center gap-1 group-hover:text-stone-900 transition-colors">
                         <span>實踐方式：種子交換、社區資材共享</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Interactive Principles Toggle Showcase -->
-            <div class="bg-stone-900 rounded-3xl p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden">
+            <div class="bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border border-stone-700/30">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                     <div>
                         <h3 class="text-2xl font-black text-amber-300">樸門 12 項設計原則快覽</h3>
@@ -370,7 +411,7 @@
                         </div>
 
                         <div class="mt-8 pt-4 border-t border-leaf-700/60 text-xs text-leaf-300 flex items-center justify-between">
-                            <span>提示：良好的碳氮比（C:N = 30:1）是防止臭味的關鍵。</span>
+                            <span>提示：良好的碳氮比（C:N = 25:1）是防止臭味的關鍵。</span>
                             <i class="fa-solid fa-lightbulb text-amber-300 text-base"></i>
                         </div>
                     </div>

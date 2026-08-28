@@ -8,6 +8,8 @@
     <meta name="keywords" content="樸門設計,Permaculture,廚餘堆肥,食物森林,永續生活,生態設計,都市農耕,環保">
     <meta name="author" content="樸門永續設計推廣網 Permaculture Hub">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="theme-color" content="#2E5E3A" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#161A14" media="(prefers-color-scheme: dark)">
     <link rel="canonical" href="https://9911088lee-star.github.io/vide-coding-web/">
     <link rel="alternate" hreflang="zh-Hant-TW" href="https://9911088lee-star.github.io/vide-coding-web/">
 
@@ -85,650 +87,1111 @@
     <meta name="twitter:description" content="探索樸門設計（Permaculture）的智慧，學習廚餘堆肥、食物森林與永續生活實作，重塑人與土地的連結。">
     <meta name="twitter:image" content="https://9911088lee-star.github.io/vide-coding-web/og-cover.png">
     <meta name="twitter:image:alt" content="樸門永續設計推廣網形象圖">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@400;500;600;700&display=swap">
+    <link rel="preload" as="image" href="assets/img/hero-garden.jpg" fetchpriority="high">
+
+    <!-- GSAP 3.13：本機檔案優先，載入失敗時由 boot() 自動改抓官方 CDN -->
     <script defer src="assets/gsap/gsap.min.js"></script>
     <script defer src="assets/gsap/ScrollTrigger.min.js"></script>
+
+    <script>
+        /* 只有在「使用者沒有要求減少動態」時才預先隱藏進場元素，
+           避免動畫開始前先閃一下。3.5 秒的保險絲確保 GSAP 萬一載入失敗，
+           內容仍然會自己顯示出來，不會永遠空白。 */
+        (function () {
+            var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!reduce) {
+                document.documentElement.classList.add('js-motion');
+                window.setTimeout(function () {
+                    document.documentElement.classList.remove('js-motion');
+                }, 3500);
+            }
+        })();
+    </script>
+
     <style>
-        /* 基礎樣式重置 */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* =========================================================
+           樸門永續設計推廣網 - 視覺系統
+           色彩來源：專案品牌色票（色票png）
+             中性底色 60%：米白 #F7F5EF / 暖灰 #E9E5DD / 深灰 #333333
+             主體色系 30%：森林綠 #2E5E3A / 橄欖綠 #6E8B57 / 土壤棕 #8B6F4E
+             輔助色   30%：草地綠 #A6C48A / 石灰米 #DAD2C1 / 霧灰綠 #B7C0B2
+             強調色   10%：陽光金 #E6B643（僅用於轉換型行動：報名鈕、閱讀進度、focus）
+           圓角規則（全站唯一一套）：
+             按鈕與標籤 = 全圓角 / 卡片與容器 = 18px / 輸入框 = 12px / 圖片 = 20px
+           ========================================================= */
+        :root {
+            --bg:            #F7F5EF;
+            --bg-alt:        #EFEBE1;
+            --surface:       #FDFCF8;
+            --surface-2:     #F2EFE6;
+
+            --ink:           #333333;
+            --ink-soft:      #55605A;
+            --ink-muted:     #6C756E;
+
+            --primary:       #2E5E3A;
+            --primary-deep:  #234A2D;
+            --primary-soft:  #E7EFE4;
+            --on-primary:    #FFFFFF;
+            --olive:         #6E8B57;
+            --earth:         #8B6F4E;
+            --earth-ink:     #6F5539;
+            --grass:         #A6C48A;
+            --stone:         #DAD2C1;
+
+            --accent:        #E6B643;
+            --on-accent:     #43330B;
+
+            --line:          rgba(51, 51, 51, .12);
+            --line-soft:     rgba(51, 51, 51, .07);
+            --line-strong:   rgba(51, 51, 51, .22);
+
+            --glass:         rgba(46, 94, 58, .82);
+            --glass-line:    rgba(255, 255, 255, .16);
+
+            --shadow-1: 0 1px 2px rgba(46, 94, 58, .06), 0 1px 3px rgba(46, 94, 58, .05);
+            --shadow-2: 0 2px 4px rgba(46, 94, 58, .05), 0 14px 28px -14px rgba(46, 94, 58, .20);
+            --shadow-3: 0 4px 10px rgba(46, 94, 58, .07), 0 28px 56px -24px rgba(46, 94, 58, .30);
+
+            --r-card:  18px;
+            --r-input: 12px;
+            --r-media: 20px;
+            --r-pill:  999px;
+
+            --wrap: 1140px;
+            --ease: cubic-bezier(.16, 1, .3, 1);
         }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg:            #161A14;
+                --bg-alt:        #1B211A;
+                --surface:       #1F261E;
+                --surface-2:     #252D23;
+
+                --ink:           #ECEAE1;
+                --ink-soft:      #BFC6BA;
+                --ink-muted:     #929A8F;
+
+                --primary:       #A6C48A;
+                --primary-deep:  #BBD5A2;
+                --primary-soft:  rgba(166, 196, 138, .12);
+                --on-primary:    #16200F;
+                --olive:         #93AC7C;
+                --earth:         #BC9A73;
+                --earth-ink:     #C7A883;
+                --stone:         #4A5142;
+
+                --line:          rgba(236, 234, 225, .14);
+                --line-soft:     rgba(236, 234, 225, .08);
+                --line-strong:   rgba(236, 234, 225, .28);
+
+                --glass:         rgba(22, 26, 20, .78);
+                --glass-line:    rgba(236, 234, 225, .12);
+
+                --shadow-1: 0 1px 2px rgba(0, 0, 0, .35);
+                --shadow-2: 0 2px 4px rgba(0, 0, 0, .28), 0 14px 28px -14px rgba(0, 0, 0, .6);
+                --shadow-3: 0 4px 10px rgba(0, 0, 0, .32), 0 28px 56px -24px rgba(0, 0, 0, .75);
+            }
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #2d3748;
-            background-color: #f7fafc;
+            font-family: "Outfit", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         "PingFang TC", "Microsoft JhengHei", sans-serif;
+            font-size: clamp(1rem, .97rem + .12vw, 1.0625rem);
+            line-height: 1.85;
+            letter-spacing: .015em;
+            color: var(--ink);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
-        /* 導覽列 */
-        header {
-            background-color: #276749;
-            color: white;
-            padding: 1rem clamp(1rem, 4vw, 2rem);
+        img { max-width: 100%; display: block; }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -.005em;
+            color: var(--primary);
+            text-wrap: balance;
+        }
+
+        p { text-wrap: pretty; }
+
+        strong { font-weight: 700; color: var(--ink); }
+
+        ::selection { background: var(--grass); color: #16200F; }
+
+        /* 焦點樣式：陽光金在深綠導覽列與米白底上都有足夠對比 */
+        a:focus-visible, button:focus-visible, summary:focus-visible,
+        input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: 1rem;
+            top: -4rem;
+            z-index: 200;
+            padding: .75rem 1.25rem;
+            background: var(--accent);
+            color: var(--on-accent);
+            border-radius: var(--r-pill);
+            font-weight: 700;
+            text-decoration: none;
+            transition: top .25s var(--ease);
+        }
+        .skip-link:focus-visible { top: 1rem; }
+
+        .wrap { width: min(100% - 2.5rem, var(--wrap)); margin-inline: auto; }
+
+        /* ---------- 閱讀進度（滾動位置回饋） ---------- */
+        .scroll-progress {
+            position: fixed;
+            inset: 0 0 auto 0;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: 0 50%;
+            z-index: 150;
+            pointer-events: none;
+        }
+
+        /* ---------- 導覽列 ---------- */
+        .site-header {
             position: sticky;
             top: 0;
             z-index: 100;
+            background: var(--glass);
+            border-bottom: 1px solid var(--glass-line);
+            -webkit-backdrop-filter: saturate(160%) blur(14px);
+            backdrop-filter: saturate(160%) blur(14px);
+            transition: box-shadow .35s var(--ease), background-color .35s var(--ease);
         }
-        nav {
+        .site-header.is-scrolled {
+            box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .55);
+        }
+        @supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+            .site-header { background: #2E5E3A; }
+        }
+        @media (prefers-reduced-transparency: reduce) {
+            .site-header { background: #2E5E3A; -webkit-backdrop-filter: none; backdrop-filter: none; }
+        }
+
+        .nav {
+            width: min(100% - 2.5rem, var(--wrap));
+            margin-inline: auto;
+            min-height: 68px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             gap: 1rem 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
+            padding-block: .6rem;
         }
-        nav h2 {
-            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+        .brand {
+            font-size: clamp(1.15rem, 1rem + .55vw, 1.4rem);
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: .04em;
             white-space: nowrap;
         }
-        nav ul {
+        .nav-links {
             display: flex;
             list-style: none;
-            gap: 0.5rem clamp(0.5rem, 2vw, 1.5rem);
-            flex-wrap: wrap;
-            justify-content: center;
+            align-items: center;
+            gap: clamp(.35rem, 1.6vw, 1.4rem);
         }
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        .nav-links a {
+            position: relative;
             display: inline-flex;
             align-items: center;
             min-height: 44px;
+            padding-inline: .25rem;
+            color: rgba(255, 255, 255, .88);
+            font-size: .95rem;
+            font-weight: 500;
+            text-decoration: none;
             white-space: nowrap;
+            transition: color .25s var(--ease);
         }
-        nav a:focus-visible, .submit-btn:focus-visible,
-        .form-group input:focus-visible, .form-group select:focus-visible,
-        .form-group textarea:focus-visible {
-            outline: 3px solid #f6e05e;
-            outline-offset: 3px;
-        }
-
-        /* Hero 區塊 */
-        .hero {
-            position: relative;
-            display: grid;
-            place-items: center;
-            min-height: clamp(320px, 48vw, 520px);
-            color: white;
-            text-align: center;
-            overflow: hidden;
-            isolation: isolate;
-        }
-        .hero::after {
+        .nav-links a::after {
             content: "";
             position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.52);
-            z-index: -1;
+            left: .25rem;
+            right: .25rem;
+            bottom: 12px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: 0 50%;
+            transition: transform .35s var(--ease);
         }
-        .hero-cover {
-            position: absolute;
-            inset: 0;
-            z-index: -2;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+        .nav-links a:hover { color: #FFFFFF; }
+        .nav-links a:hover::after,
+        .nav-links a:focus-visible::after { transform: scaleX(1); }
+
+        /* ---------- 按鈕（品牌規範：主要=森林綠 / 次要=中性 / 強調=陽光金） ---------- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            padding: .9rem 1.75rem;
+            border: 1px solid transparent;
+            border-radius: var(--r-pill);
+            font: inherit;
+            font-weight: 700;
+            line-height: 1.2;
+            white-space: nowrap;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color .28s var(--ease), border-color .28s var(--ease),
+                        box-shadow .28s var(--ease), color .28s var(--ease);
         }
-        .hero-content {
-            width: min(100%, 760px);
-            padding: clamp(3.5rem, 9vw, 5rem) 1rem;
+        .btn-primary {
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow-2);
         }
+        .btn-primary:hover { background: var(--primary-deep); box-shadow: var(--shadow-3); }
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--primary);
+            border-color: var(--line-strong);
+            box-shadow: var(--shadow-1);
+        }
+        .btn-secondary:hover { border-color: var(--primary); box-shadow: var(--shadow-2); }
+        .btn:active { transform: translateY(1px); }
+
+        /* ---------- 首屏 ---------- */
+        .hero { padding-block: clamp(2rem, 4vw, 4rem) clamp(3rem, 6vw, 5rem); }
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1.04fr .96fr;
+            align-items: center;
+            gap: clamp(2rem, 5vw, 4.5rem);
+        }
+        .hero-copy { max-width: 34rem; }
         .hero h1 {
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            margin-bottom: 1rem;
-            line-height: 1.25;
+            font-size: clamp(2.1rem, 1.35rem + 3.2vw, 3.5rem);
+            line-height: 1.2;
+            letter-spacing: -.02em;
+            margin-bottom: 1.25rem;
         }
-        .hero p {
-            max-width: 680px;
-            margin: 0 auto;
-            padding-inline: 0.5rem;
+        /* 每個語意段落是一個不可拆的行內區塊，換行只會發生在逗號處 */
+        .hero h1 span { display: inline-block; }
+        .hero-lead {
+            font-size: clamp(1.05rem, 1rem + .35vw, 1.2rem);
+            color: var(--ink-soft);
+            max-width: 30rem;
         }
-
-        /* 通用版面 */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: clamp(2.5rem, 6vw, 3rem) clamp(1rem, 4vw, 1.5rem);
-        }
-        section[id] {
-            scroll-margin-top: 7rem;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 1.8rem;
-            color: #276749;
-            margin-bottom: 2rem;
-        }
-        .section-intro {
-            max-width: 760px;
-            margin: -1rem auto 2rem;
-            text-align: center;
-            color: #334155;
-        }
-        .benefits-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1rem;
-            list-style: none;
-            margin-top: 1.5rem;
-        }
-        .benefits-list li {
-            background: #edf7f0;
-            border-left: 4px solid #276749;
-            border-radius: 6px;
-            padding: 1rem;
-        }
-
-        /* 特色 Grid */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-            gap: 1.5rem;
-        }
-        .card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        .card h3 {
-            color: #2f855a;
-            margin-bottom: 0.5rem;
-        }
-
-        /* 廚餘回收箱區塊 */
-        .compost-section {
+        .hero-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
-            align-items: center;
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
+            gap: .875rem;
+            margin-top: 2.25rem;
         }
-        .compost-img {
-            flex: 1 1 300px;
+        .hero-media {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            max-height: min(62svh, 620px);
+            border-radius: var(--r-media);
+            overflow: hidden;
+            box-shadow: var(--shadow-3);
+            background: var(--surface-2);
+        }
+        .hero-media img {
             width: 100%;
-            height: clamp(220px, 35vw, 250px);
+            height: 112%;
             object-fit: cover;
-            border-radius: 8px;
-        }
-        .compost-text {
-            flex: 2 1 400px;
+            object-position: center 40%;
+            will-change: transform;
         }
 
-        /* 報名表單 */
-        .form-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 600px;
-            margin: 0 auto;
+        /* ---------- 區塊通用 ---------- */
+        .section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+        .section-tint { background: var(--bg-alt); }
+        section[id] { scroll-margin-top: 5.5rem; }
+
+        .section-head { margin-bottom: clamp(2rem, 4vw, 3.25rem); }
+        .section-title {
+            font-size: clamp(1.6rem, 1.15rem + 1.9vw, 2.35rem);
+            letter-spacing: -.015em;
+            max-width: 24ch;
         }
-        .form-group {
-            margin-bottom: 1.2rem;
+        .section-intro {
+            margin-top: 1rem;
+            max-width: 62ch;
+            color: var(--ink-soft);
         }
+
+        /* ---------- 三大核心倫理：不對稱 bento（3 格，無空格） ---------- */
+        .ethic-grid {
+            display: grid;
+            grid-template-columns: 1.12fr 1fr;
+            grid-auto-rows: 1fr;
+            gap: 1.25rem;
+        }
+        .ethic {
+            background: var(--surface);
+            border: 1px solid var(--line-soft);
+            border-radius: var(--r-card);
+            padding: clamp(1.5rem, 3vw, 2.25rem);
+            box-shadow: var(--shadow-1);
+            transition: box-shadow .35s var(--ease), border-color .35s var(--ease);
+        }
+        .ethic:hover { box-shadow: var(--shadow-2); border-color: var(--line); }
+        .ethic-lead {
+            grid-row: span 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background:
+                linear-gradient(155deg, var(--primary-soft) 0%, var(--surface) 62%);
+            border-color: var(--line);
+        }
+        .ethic h3 {
+            font-size: 1.2rem;
+            margin-bottom: .6rem;
+        }
+        .ethic-lead h3 { font-size: clamp(1.35rem, 1.1rem + .9vw, 1.75rem); }
+        .ethic p { color: var(--ink-soft); }
+
+        .benefits {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(1.25rem, 3vw, 2.5rem);
+            margin-top: clamp(2.5rem, 5vw, 3.5rem);
+        }
+        .benefits li {
+            border-top: 2px solid var(--primary);
+            padding-top: 1.1rem;
+            color: var(--ink-soft);
+            font-size: .97rem;
+        }
+        .benefits strong { display: block; color: var(--primary); margin-bottom: .2rem; }
+
+        /* ---------- 廚餘系統：圖文分欄 ---------- */
+        .compost-layout {
+            display: grid;
+            grid-template-columns: .85fr 1fr;
+            gap: clamp(2rem, 5vw, 4rem);
+            align-items: center;
+        }
+        .compost-media {
+            aspect-ratio: 4 / 5;
+            border-radius: var(--r-media);
+            overflow: hidden;
+            box-shadow: var(--shadow-2);
+            background: var(--surface-2);
+        }
+        .compost-media img {
+            width: 100%;
+            height: 114%;
+            object-fit: cover;
+            object-position: 56% 74%;
+            will-change: transform;
+        }
+        .compost-text h3 {
+            font-size: clamp(1.25rem, 1.05rem + .8vw, 1.6rem);
+            margin-bottom: 1rem;
+        }
+        .compost-text > p { color: var(--ink-soft); }
+        .compost-points {
+            list-style: none;
+            margin-top: 1.75rem;
+            display: grid;
+            gap: .9rem;
+        }
+        .compost-points li {
+            border-left: 2px solid var(--grass);
+            padding-left: 1rem;
+            color: var(--ink-soft);
+            font-size: .97rem;
+        }
+        .compost-points strong { color: var(--primary); }
+
+        /* ---------- 課程：橫向列式 ---------- */
+        .course-list { border-top: 1px solid var(--line); }
+        .course-row {
+            display: grid;
+            grid-template-columns: minmax(14rem, 20rem) 1fr;
+            gap: 1rem clamp(1.5rem, 4vw, 3.5rem);
+            align-items: start;
+            padding: clamp(1.5rem, 3vw, 2.25rem) clamp(.75rem, 2vw, 1.5rem);
+            border-bottom: 1px solid var(--line);
+            border-radius: var(--r-card);
+            transition: background-color .35s var(--ease);
+        }
+        .course-row:hover { background: var(--surface); box-shadow: var(--shadow-1); }
+        .course-row h3 { font-size: clamp(1.1rem, 1rem + .5vw, 1.35rem); }
+        .course-tag {
+            display: inline-block;
+            margin-top: .75rem;
+            padding: .3rem .85rem;
+            border-radius: var(--r-pill);
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: .02em;
+        }
+        .course-row p { color: var(--ink-soft); }
+
+        /* ---------- 工具：去卡片化的排版式欄位 ---------- */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(1.75rem, 4vw, 3rem);
+        }
+        .tool { border-top: 2px solid var(--earth); padding-top: 1.25rem; }
+        .tool h3 { font-size: 1.1rem; margin-bottom: .5rem; color: var(--earth-ink); }
+        .tool p { color: var(--ink-soft); font-size: .97rem; }
+
+        /* ---------- 常見問題 ---------- */
+        .faq-list { display: grid; gap: .875rem; max-width: 52rem; }
+        .faq-item {
+            background: var(--surface);
+            border: 1px solid var(--line-soft);
+            border-radius: var(--r-card);
+            padding: 1.1rem clamp(1.1rem, 2.5vw, 1.6rem);
+            box-shadow: var(--shadow-1);
+            transition: box-shadow .35s var(--ease), border-color .35s var(--ease);
+        }
+        .faq-item:hover, .faq-item[open] { box-shadow: var(--shadow-2); border-color: var(--line); }
+        .faq-item summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--primary);
+            list-style: none;
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+            content: "";
+            flex: none;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg) translate(-2px, -2px);
+            transition: transform .35s var(--ease);
+        }
+        .faq-item[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+        .faq-answer { margin-top: .9rem; color: var(--ink-soft); }
+
+        /* ---------- 報名表單 ---------- */
+        .form-card {
+            background: var(--surface);
+            border: 1px solid var(--line-soft);
+            border-radius: var(--r-card);
+            box-shadow: var(--shadow-2);
+            padding: clamp(1.5rem, 4vw, 2.75rem);
+            max-width: 40rem;
+        }
+        .form-group { margin-bottom: 1.35rem; }
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
+            margin-bottom: .5rem;
+            font-weight: 700;
+            color: var(--ink);
+            font-size: .95rem;
         }
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             min-width: 0;
-            padding: 0.75rem;
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
+            padding: .8rem .95rem;
+            border: 1px solid var(--line-strong);
+            border-radius: var(--r-input);
+            background: var(--bg);
+            color: var(--ink);
             font: inherit;
+            line-height: 1.5;
+            transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
+        }
+        .form-group textarea { resize: vertical; }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--ink-muted); }
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover { border-color: var(--primary); }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-soft);
         }
         .submit-btn {
             width: 100%;
-            background-color: #276749;
-            color: white;
-            padding: 0.75rem;
+            margin-top: .5rem;
+            padding: 1rem;
             border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .submit-btn:hover {
-            background-color: #1f5a3e;
-        }
-        .faq-list {
-            max-width: 820px;
-            margin: 0 auto;
-        }
-        .faq-list details {
-            background: white;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
-            margin-bottom: 0.75rem;
-            padding: 1rem 1.25rem;
-        }
-        .faq-list summary {
-            color: #1f5a3e;
-            cursor: pointer;
+            border-radius: var(--r-pill);
+            background: var(--accent);
+            color: var(--on-accent);
+            font: inherit;
             font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-2);
+            transition: background-color .28s var(--ease), box-shadow .28s var(--ease);
         }
-        .faq-list p {
-            margin-top: 0.75rem;
-        }
+        .submit-btn:hover { background: #D8A62F; box-shadow: var(--shadow-3); }
+
+        /* ---------- 影像作品 ---------- */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 1.25rem;
+            max-width: 54rem;
         }
         .portfolio-card {
-            background: #1a202c;
-            border-radius: 12px;
+            background: #1A2118;
+            border-radius: var(--r-media);
             overflow: hidden;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--shadow-2);
+            transition: box-shadow .35s var(--ease);
         }
+        .portfolio-card:hover { box-shadow: var(--shadow-3); }
         .portfolio-video {
             display: block;
             width: 100%;
             aspect-ratio: 9 / 16;
             border: 0;
-            background: #0f172a;
+            background: #10160F;
         }
         .portfolio-card h3 {
-            color: white;
-            font-size: 1rem;
-            padding: 0.8rem 1rem;
+            color: #F3F1E8;
+            font-size: .95rem;
+            font-weight: 500;
+            padding: .85rem 1rem;
             text-align: center;
         }
 
-        /* 頁尾 */
-        footer {
-            background-color: #1a202c;
-            color: white;
+        /* ---------- 頁尾 ---------- */
+        .site-footer {
+            background: #234A2D;
+            color: rgba(255, 255, 255, .82);
             text-align: center;
-            padding: 1.5rem;
-            margin-top: 2rem;
+            padding: 2.5rem 1.5rem;
+            font-size: .92rem;
         }
 
-        /* 平板與手機的版面調整 */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            nav {
-                align-items: flex-start;
-            }
-            nav ul {
-                justify-content: flex-end;
-            }
-            nav a {
-                padding-inline: 0.15rem;
-            }
-            .compost-section {
-                gap: 1.5rem;
-                padding: 1.5rem;
-            }
+        /* ---------- 進場動畫的預設隱藏 + 保險絲 ---------- */
+        .js-motion [data-anim],
+        .js-motion [data-hero] { opacity: 0; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            [data-anim], [data-hero] { opacity: 1 !important; visibility: visible !important; }
+            .scroll-progress { display: none; }
+            * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
         }
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 0.75rem;
-                text-align: center;
-            }
-            nav ul {
-                width: 100%;
-                gap: 0.35rem 0.5rem;
-            }
-            nav a {
-                display: block;
-                padding: 0.6rem 0.65rem;
-                min-height: 44px;
-            }
-            .section-title {
-                font-size: clamp(1.5rem, 6vw, 1.8rem);
-                margin-bottom: 1.5rem;
-            }
-            .hero h1 {
-                font-size: clamp(1.9rem, 8vw, 2.25rem);
-                line-height: 1.25;
-            }
-            .hero p {
-                font-size: 0.98rem;
-            }
-            .grid-3 {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .card, .compost-section, .form-container {
-                padding: 1.25rem;
-            }
-            .card {
-                border-radius: 10px;
-            }
-            .compost-section {
-                gap: 1.25rem;
-            }
-            .compost-img {
-                flex-basis: 100%;
-                height: 220px;
-            }
-            .compost-text {
-                flex-basis: 100%;
-            }
-            .benefits-list {
-                grid-template-columns: 1fr;
-            }
-            .form-group input, .form-group select, .form-group textarea,
-            .submit-btn {
-                font-size: 16px;
-            }
-            .faq-list details {
-                padding: 0.9rem 1rem;
-            }
-            .portfolio-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 1rem;
-            }
+
+        /* ---------- 響應式 ---------- */
+        @media (max-width: 1024px) {
+            .nav-links a { font-size: .9rem; }
+            .hero-inner { gap: 2.25rem; }
         }
-        @media (max-width: 380px) {
-            nav h2 {
-                font-size: 1.25rem;
-            }
-            nav ul {
+
+        @media (max-width: 860px) {
+            .nav {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: center;
+                gap: .35rem;
+                padding-block: .75rem;
             }
-            nav a {
-                width: 100%;
-            }
-            .hero {
-                min-height: 360px;
-            }
-            .hero p, .section-intro {
-                font-size: 0.95rem;
-            }
-            .container {
-                padding-inline: 0.875rem;
-            }
-            .form-container, .compost-section {
-                border-radius: 6px;
-            }
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-                max-width: 280px;
+            /* 收成整齊的 3 + 3 兩列，避免 5 + 1 的破格，也讓黏性導覽列不吃掉太多視窗 */
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: .1rem .7rem;
+                max-width: 15rem;
                 margin-inline: auto;
             }
+            .nav-links a { min-height: 38px; font-size: .9rem; }
+            .nav-links a::after { bottom: 7px; }
+            section[id] { scroll-margin-top: 8rem; }
+
+            .hero-inner { grid-template-columns: 1fr; }
+            .hero-copy { max-width: none; order: 2; }
+            .hero-media { order: 1; aspect-ratio: 16 / 11; }
+            .hero-media img { object-position: center 45%; }
+
+            .ethic-grid { grid-template-columns: 1fr; }
+            .ethic-lead { grid-row: auto; }
+            .benefits { grid-template-columns: 1fr; gap: 1.25rem; }
+
+            .compost-layout { grid-template-columns: 1fr; }
+            .compost-media { aspect-ratio: 4 / 3; }
+
+            .course-row { grid-template-columns: 1fr; padding-inline: .25rem; }
+            .tool-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+
+            .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+        }
+
+        @media (max-width: 460px) {
+            body { line-height: 1.8; }
+            .wrap, .nav { width: min(100% - 1.75rem, var(--wrap)); }
+            .btn { width: 100%; }
+            .hero-actions { gap: .75rem; }
+            .form-group input,
+            .form-group select,
+            .form-group textarea,
+            .submit-btn { font-size: 16px; }
+            .portfolio-grid { grid-template-columns: 1fr; max-width: 18rem; margin-inline: auto; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <nav aria-label="主要導覽">
-            <h2>樸門永續生活</h2>
-            <ul>
-                <li><a href="#features">特色核心</a></li>
-                <li><a href="#compost">廚餘回收箱</a></li>
-                <li><a href="#courses">課程介紹</a></li>
-                <li><a href="#tools">推薦工具</a></li>
-                <li><a href="#faq">常見問題</a></li>
-                <li><a href="#register">線上報名</a></li>
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <nav class="nav" aria-label="主要導覽">
+            <h2 class="brand">樸門永續生活</h2>
+            <ul class="nav-links">
+                <li data-hero><a href="#features">特色核心</a></li>
+                <li data-hero><a href="#compost">廚餘回收箱</a></li>
+                <li data-hero><a href="#courses">課程介紹</a></li>
+                <li data-hero><a href="#tools">推薦工具</a></li>
+                <li data-hero><a href="#faq">常見問題</a></li>
+                <li data-hero><a href="#register">線上報名</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
+    <main id="main">
+
     <section class="hero" aria-labelledby="hero-title">
-        <img class="hero-cover" src="og-cover.png" alt="樸門永續設計推廣網形象圖" width="1717" height="916" fetchpriority="high" decoding="async">
-        <div class="hero-content">
-            <h1 id="hero-title">順應自然，設計永續生活</h1>
-            <p>探索樸門設計（Permaculture）的智慧，重塑人與土地的連結。</p>
-        </div>
-    </section>
-
-    <section id="features" class="container">
-        <h2 class="section-title">樸門三大核心倫理</h2>
-        <p class="section-intro"><strong>先說結論：</strong>樸門設計以照顧地球、照顧人類與分享多餘為基礎，將日常資源轉化為可持續運作的生活系統。</p>
-        <div class="grid-3">
-            <div class="card">
-                <h3>照顧地球</h3>
-                <p>維護所有生命系統繼續生存與繁殖的能力，重建土壤與生態豐富度。</p>
-            </div>
-            <div class="card">
-                <h3>照顧人類</h3>
-                <p>滿足食物、住宅、社群等基本需求，實現自給自足且健康的永續生活。</p>
-            </div>
-            <div class="card">
-                <h3>分享多餘</h3>
-                <p>將多餘的資源（資源、時間、能源）回饋到前兩個目標，促進循環生態。</p>
-            </div>
-        </div>
-        <ul class="benefits-list" aria-label="樸門設計的核心優勢">
-            <li><strong>減少廢棄：</strong>讓廚餘與落葉回到土壤循環，降低垃圾量。</li>
-            <li><strong>提升韌性：</strong>透過保水、土壤與多層次種植設計，建立更穩定的生活系統。</li>
-            <li><strong>可從居家開始：</strong>以陽台、社區與小型菜圃為起點，逐步實踐永續生活。</li>
-        </ul>
-    </section>
-
-    <section id="compost" class="container">
-        <h2 class="section-title">樸門經典設計：厚層堆肥與廚餘系統</h2>
-        <div class="compost-section">
-            <img src="https://picsum.photos/600/400?random=1" alt="樸門廚餘回收箱設計" class="compost-img" width="600" height="400" loading="lazy" decoding="async">
-            <div class="compost-text">
-                <h3>厚層廚餘回收箱（Mulch Composting）</h3>
-                <p>運用「三明治堆肥法」或「蚯蚓塔」設計，將家庭廚餘與園藝落葉無臭轉化為肥沃黑土。</p>
-                <br>
-                <ul>
-                    <li><strong>零廢棄循環：</strong> 降低垃圾量，直接原地轉化為養分。</li>
-                    <li><strong>防臭設計：</strong> 透過碳氮比調整與覆蓋層，杜絕異味與蚊蟲。</li>
-                    <li><strong>土壤升級：</strong> 豐富微生物菌群，提升保水與透氣性。</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="courses" class="container">
-        <h2 class="section-title">最新工作坊與課程</h2>
-        <p class="section-intro"><strong>你可以從這裡開始：</strong>依照自身經驗與場域，選擇樸門基礎、居家堆肥或食物森林規劃課程，將知識轉化為具體行動。</p>
-        <div class="grid-3">
-            <div class="card">
-                <h3>樸門 PDC 基礎入門課</h3>
-                <p><strong>對象：</strong> 初學者、都市農夫</p>
-                <p>學習基礎設計原則、水資源收集與微氣候分析，掌握自給自足第一步。</p>
-            </div>
-            <div class="card">
-                <h3>居家廚餘堆肥實作班</h3>
-                <p><strong>對象：</strong> 社區居民、家庭主婦</p>
-                <p>手把手教你組裝無臭廚餘回收箱，打造陽台食物森林小基地。</p>
-            </div>
-            <div class="card">
-                <h3>食物森林（Food Forest）規劃</h3>
-                <p><strong>對象：</strong> 地主、農場管理者</p>
-                <p>學習多層次立體種植，打造低維護成本、高產量的自然生態果園。</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="tools" class="container">
-        <h2 class="section-title">樸門實作工具建議</h2>
-        <div class="grid-3">
-            <div class="card">
-                <h3>不翻土廣口叉 (Broadfork)</h3>
-                <p>能在不破壞土壤微生物結構的前提下鬆土，維護健康土層。</p>
-            </div>
-            <div class="card">
-                <h3>雨水收集系統套件</h3>
-                <p>利用屋頂水溝與過濾桶，實現屋頂與花園水資源重覆利用。</p>
-            </div>
-            <div class="card">
-                <h3>廚餘蚯蚓塔桶 (Worm Tower)</h3>
-                <p>直接埋入菜圃中，讓紅蚯蚓協助在根系旁就地分解廚餘並施肥。</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="container" aria-labelledby="faq-title">
-        <h2 id="faq-title" class="section-title">常見問題</h2>
-        <p class="section-intro"><strong>重點整理：</strong>從零開始也能實踐樸門；先理解原理，再依居家或土地條件選擇合適方法。</p>
-        <div class="faq-list">
-            <details>
-                <summary>樸門設計適合初學者嗎？</summary>
-                <p>適合。樸門 PDC 基礎入門課涵蓋基礎設計原則、水資源收集與微氣候分析，協助初學者建立第一步。</p>
-            </details>
-            <details>
-                <summary>居家廚餘如何製作成堆肥？</summary>
-                <p>可運用三明治堆肥法或蚯蚓塔，搭配碳氮比調整與覆蓋層，將家庭廚餘及園藝落葉轉化為肥沃黑土。</p>
-            </details>
-            <details>
-                <summary>食物森林規劃課程適合哪些人？</summary>
-                <p>適合地主與農場管理者，課程著重多層次立體種植、低維護成本及自然生態果園的規劃。</p>
-            </details>
-        </div>
-    </section>
-
-    <section id="register" class="container">
-        <h2 class="section-title">課程線上報名</h2>
-        <div class="form-container">
-            <form action="#" method="POST">
-                <div class="form-group">
-                    <label for="name">姓名</label>
-                    <input type="text" id="name" name="name" required placeholder="請輸入您的姓名">
+        <div class="wrap hero-inner">
+            <div class="hero-copy">
+                <h1 id="hero-title" data-hero><span>順應自然，</span><span>設計永續生活</span></h1>
+                <p class="hero-lead" data-hero>探索樸門設計（Permaculture）的智慧，重塑人與土地的連結。</p>
+                <div class="hero-actions" data-hero>
+                    <a class="btn btn-primary" href="#register">線上報名</a>
+                    <a class="btn btn-secondary" href="#courses">課程介紹</a>
                 </div>
-                <div class="form-group">
-                    <label for="email">電子郵件</label>
-                    <input type="email" id="email" name="email" required placeholder="example@email.com">
-                </div>
-                <div class="form-group">
-                    <label for="course">選擇報名課程</label>
-                    <select id="course" name="course" required>
-                        <option value="">-- 請選擇課程 --</option>
-                        <option value="pdc">樸門 PDC 基礎入門課</option>
-                        <option value="compost">居家廚餘堆肥實作班</option>
-                        <option value="food-forest">食物森林規劃工作坊</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="message">備註或提問（選填）</label>
-                    <textarea id="message" name="message" rows="4" placeholder="是否有相關種植經驗？"></textarea>
-                </div>
-                <button type="submit" class="submit-btn" aria-label="送出課程報名資訊">送出報名資訊</button>
-            </form>
+            </div>
+            <figure class="hero-media" data-hero>
+                <img src="assets/img/hero-garden.jpg"
+                     alt="以樸門設計規劃的家庭菜園，石板小徑穿過多層次的蔬菜與果樹"
+                     width="715" height="715" fetchpriority="high" decoding="async">
+            </figure>
         </div>
     </section>
 
-    <section id="portfolio" class="container" aria-labelledby="portfolio-title">
-        <h2 id="portfolio-title" class="section-title">樸門設計相關連結</h2>
-        <p class="section-intro">樸門設計影像作品：以純畫面方式呈現，影片會自動播放、靜音並循環播放。</p>
-        <div class="portfolio-grid" aria-label="樸門設計影片作品集">
-            <article class="portfolio-card">
-                <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/jhENMts9fR4?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=jhENMts9fR4&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 1" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                <h3>樸門設計</h3>
-            </article>
-            <article class="portfolio-card">
-                <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/cRXOfBwiPHM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=cRXOfBwiPHM&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 2" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                <h3>樸門設計</h3>
-            </article>
-            <article class="portfolio-card">
-                <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/Fd8z3CQVH8I?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=Fd8z3CQVH8I&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 3" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                <h3>樸門設計</h3>
-            </article>
+    <section id="features" class="section">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="section-title" data-anim>樸門三大核心倫理</h2>
+                <p class="section-intro" data-anim><strong>先說結論：</strong>樸門設計以照顧地球、照顧人類與分享多餘為基礎，將日常資源轉化為可持續運作的生活系統。</p>
+            </div>
+            <div class="ethic-grid">
+                <article class="ethic ethic-lead" data-anim>
+                    <h3>照顧地球</h3>
+                    <p>維護所有生命系統繼續生存與繁殖的能力，重建土壤與生態豐富度。</p>
+                </article>
+                <article class="ethic" data-anim>
+                    <h3>照顧人類</h3>
+                    <p>滿足食物、住宅、社群等基本需求，實現自給自足且健康的永續生活。</p>
+                </article>
+                <article class="ethic" data-anim>
+                    <h3>分享多餘</h3>
+                    <p>將多餘的資源（資源、時間、能源）回饋到前兩個目標，促進循環生態。</p>
+                </article>
+            </div>
+            <ul class="benefits" aria-label="樸門設計的核心優勢">
+                <li data-anim><strong>減少廢棄</strong>讓廚餘與落葉回到土壤循環，降低垃圾量。</li>
+                <li data-anim><strong>提升韌性</strong>透過保水、土壤與多層次種植設計，建立更穩定的生活系統。</li>
+                <li data-anim><strong>可從居家開始</strong>以陽台、社區與小型菜圃為起點，逐步實踐永續生活。</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="compost" class="section section-tint">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="section-title" data-anim>樸門經典設計：厚層堆肥與廚餘系統</h2>
+            </div>
+            <div class="compost-layout">
+                <figure class="compost-media" data-anim>
+                    <img src="assets/img/compost-box.jpg"
+                         alt="以木板組裝完成的家庭廚餘回收箱，箱內鋪滿覆蓋用的木屑"
+                         width="1200" height="1600" loading="lazy" decoding="async">
+                </figure>
+                <div class="compost-text">
+                    <h3 data-anim>厚層廚餘回收箱（Mulch Composting）</h3>
+                    <p data-anim>運用「三明治堆肥法」或「蚯蚓塔」設計，將家庭廚餘與園藝落葉無臭轉化為肥沃黑土。</p>
+                    <ul class="compost-points">
+                        <li data-anim><strong>零廢棄循環：</strong>降低垃圾量，直接原地轉化為養分。</li>
+                        <li data-anim><strong>防臭設計：</strong>透過碳氮比調整與覆蓋層，杜絕異味與蚊蟲。</li>
+                        <li data-anim><strong>土壤升級：</strong>豐富微生物菌群，提升保水與透氣性。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="courses" class="section">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="section-title" data-anim>最新工作坊與課程</h2>
+                <p class="section-intro" data-anim><strong>你可以從這裡開始：</strong>依照自身經驗與場域，選擇樸門基礎、居家堆肥或食物森林規劃課程，將知識轉化為具體行動。</p>
+            </div>
+            <div class="course-list">
+                <article class="course-row" data-anim>
+                    <div>
+                        <h3>樸門 PDC 基礎入門課</h3>
+                        <span class="course-tag">對象：初學者、都市農夫</span>
+                    </div>
+                    <p>學習基礎設計原則、水資源收集與微氣候分析，掌握自給自足第一步。</p>
+                </article>
+                <article class="course-row" data-anim>
+                    <div>
+                        <h3>居家廚餘堆肥實作班</h3>
+                        <span class="course-tag">對象：社區居民、家庭主婦</span>
+                    </div>
+                    <p>手把手教你組裝無臭廚餘回收箱，打造陽台食物森林小基地。</p>
+                </article>
+                <article class="course-row" data-anim>
+                    <div>
+                        <h3>食物森林（Food Forest）規劃</h3>
+                        <span class="course-tag">對象：地主、農場管理者</span>
+                    </div>
+                    <p>學習多層次立體種植，打造低維護成本、高產量的自然生態果園。</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="tools" class="section section-tint">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="section-title" data-anim>樸門實作工具建議</h2>
+            </div>
+            <div class="tool-grid">
+                <article class="tool" data-anim>
+                    <h3>不翻土廣口叉 (Broadfork)</h3>
+                    <p>能在不破壞土壤微生物結構的前提下鬆土，維護健康土層。</p>
+                </article>
+                <article class="tool" data-anim>
+                    <h3>雨水收集系統套件</h3>
+                    <p>利用屋頂水溝與過濾桶，實現屋頂與花園水資源重覆利用。</p>
+                </article>
+                <article class="tool" data-anim>
+                    <h3>廚餘蚯蚓塔桶 (Worm Tower)</h3>
+                    <p>直接埋入菜圃中，讓紅蚯蚓協助在根系旁就地分解廚餘並施肥。</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section" aria-labelledby="faq-title">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 id="faq-title" class="section-title" data-anim>常見問題</h2>
+                <p class="section-intro" data-anim><strong>重點整理：</strong>從零開始也能實踐樸門；先理解原理，再依居家或土地條件選擇合適方法。</p>
+            </div>
+            <div class="faq-list">
+                <details class="faq-item" data-anim>
+                    <summary>樸門設計適合初學者嗎？</summary>
+                    <p class="faq-answer">適合。樸門 PDC 基礎入門課涵蓋基礎設計原則、水資源收集與微氣候分析，協助初學者建立第一步。</p>
+                </details>
+                <details class="faq-item" data-anim>
+                    <summary>居家廚餘如何製作成堆肥？</summary>
+                    <p class="faq-answer">可運用三明治堆肥法或蚯蚓塔，搭配碳氮比調整與覆蓋層，將家庭廚餘及園藝落葉轉化為肥沃黑土。</p>
+                </details>
+                <details class="faq-item" data-anim>
+                    <summary>食物森林規劃課程適合哪些人？</summary>
+                    <p class="faq-answer">適合地主與農場管理者，課程著重多層次立體種植、低維護成本及自然生態果園的規劃。</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section id="register" class="section section-tint">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="section-title" data-anim>課程線上報名</h2>
+            </div>
+            <div class="form-card" data-anim>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" name="name" required placeholder="請輸入您的姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">電子郵件</label>
+                        <input type="email" id="email" name="email" required placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="course">選擇報名課程</label>
+                        <select id="course" name="course" required>
+                            <option value="">請選擇課程</option>
+                            <option value="pdc">樸門 PDC 基礎入門課</option>
+                            <option value="compost">居家廚餘堆肥實作班</option>
+                            <option value="food-forest">食物森林規劃工作坊</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">備註或提問（選填）</label>
+                        <textarea id="message" name="message" rows="4" placeholder="是否有相關種植經驗？"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" aria-label="送出課程報名資訊">送出報名資訊</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section" aria-labelledby="portfolio-title">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 id="portfolio-title" class="section-title" data-anim>樸門設計相關連結</h2>
+                <p class="section-intro" data-anim>樸門設計影像作品：以純畫面方式呈現，影片會自動播放、靜音並循環播放。</p>
+            </div>
+            <div class="portfolio-grid" aria-label="樸門設計影片作品集">
+                <article class="portfolio-card" data-anim>
+                    <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/jhENMts9fR4?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=jhENMts9fR4&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 1" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    <h3>樸門設計</h3>
+                </article>
+                <article class="portfolio-card" data-anim>
+                    <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/cRXOfBwiPHM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=cRXOfBwiPHM&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 2" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    <h3>樸門設計</h3>
+                </article>
+                <article class="portfolio-card" data-anim>
+                    <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/Fd8z3CQVH8I?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=Fd8z3CQVH8I&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 3" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    <h3>樸門設計</h3>
+                </article>
+            </div>
         </div>
     </section>
 
     </main>
 
-    <footer>
-        <p>&copy; 2026 樸門永續設計推廣網 Permaculture Hub. All rights reserved.</p>
+    <footer class="site-footer">
+        <p data-anim>&copy; 2026 樸門永續設計推廣網 Permaculture Hub. All rights reserved.</p>
     </footer>
 
     <script>
-        window.addEventListener('load', () => {
-            if (!window.gsap || !window.ScrollTrigger) return;
+    /* =========================================================
+       GSAP 動態層
+       依 GreenSock 官方 Skills（gsap-core / gsap-scrolltrigger /
+       gsap-performance）的準則實作：
+         - 只動 transform 與 opacity（autoAlpha），不動 width/height/top/left
+         - 進場一律用 stagger，不用多條手動 delay 的 tween
+         - 用 gsap.matchMedia() 承接 prefers-reduced-motion，不匹配時自動 revert
+         - 不使用 window.addEventListener('scroll')，全部交給 ScrollTrigger
+       每一段動畫都有存在理由，寫在該段的註解裡。
+       ========================================================= */
+    (function () {
+        'use strict';
 
+        var CDN_GSAP = 'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js';
+        var CDN_ST   = 'https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js';
+
+        function loadScript(src) {
+            return new Promise(function (resolve, reject) {
+                var s = document.createElement('script');
+                s.src = src;
+                s.onload = resolve;
+                s.onerror = function () { reject(new Error('load failed: ' + src)); };
+                document.head.appendChild(s);
+            });
+        }
+
+        function reveal() {
+            document.documentElement.classList.remove('js-motion');
+        }
+
+        function boot() {
+            var chain = Promise.resolve();
+            if (!window.gsap) { chain = chain.then(function () { return loadScript(CDN_GSAP); }); }
+            chain
+                .then(function () { if (!window.ScrollTrigger) { return loadScript(CDN_ST); } })
+                .then(function () {
+                    if (window.gsap && window.ScrollTrigger) { init(); } else { reveal(); }
+                })
+                .catch(function () { reveal(); });
+        }
+
+        function init() {
             gsap.registerPlugin(ScrollTrigger);
-            const motion = gsap.matchMedia();
+            gsap.defaults({ ease: 'power3.out', duration: 0.8 });
+            ScrollTrigger.config({ ignoreMobileResize: true });
 
-            motion.add(
-                { reduceMotion: '(prefers-reduced-motion: reduce)' },
-                (context) => {
-                    if (context.conditions.reduceMotion) return;
+            var mm = gsap.matchMedia();
 
-                    gsap.timeline({ defaults: { ease: 'power3.out' } })
-                        .from('.hero-cover', { scale: 1.08, autoAlpha: 0, duration: 1.1 })
-                        .from('.hero-content h1', { y: 32, autoAlpha: 0, duration: 0.7 }, '-=0.5')
-                        .from('.hero-content p', { y: 18, autoAlpha: 0, duration: 0.55 }, '-=0.38');
+            /* 只在使用者沒有要求減少動態時建立動畫；
+               條件不成立時 matchMedia 會自動把所有 tween 與 ScrollTrigger 還原。 */
+            mm.add('(prefers-reduced-motion: no-preference)', function () {
 
-                    const sections = gsap.utils.toArray('main > .container');
-                    sections.forEach((section) => {
-                        gsap.from(section, {
-                            y: 36,
-                            autoAlpha: 0,
-                            duration: 0.7,
-                            ease: 'power2.out',
-                            scrollTrigger: {
-                                trigger: section,
-                                start: 'top 85%',
-                                once: true
-                            }
-                        });
-                    });
+                var cleanups = [];
 
-                    const revealItems = gsap.utils.toArray(
-                        '.card, .benefits-list li, .faq-list details, .portfolio-card'
-                    );
-                    gsap.set(revealItems, { y: 22, autoAlpha: 0, willChange: 'transform, opacity' });
-                    ScrollTrigger.batch(revealItems, {
-                        start: 'top 88%',
-                        once: true,
-                        batchMax: 4,
-                        onEnter: (elements) => gsap.to(elements, {
+                /* --- 1. 首屏依序進場：建立內容閱讀順序（圖 → 標題 → 說明 → CTA） --- */
+                var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+                tl.from('.hero-media', { autoAlpha: 0, scale: 1.06, y: 28, duration: 1.15 })
+                  .from('.hero-copy > [data-hero]', {
+                      autoAlpha: 0, y: 28, duration: 0.85, stagger: 0.13
+                  }, '-=0.82')
+                  .from('.nav-links li', {
+                      autoAlpha: 0, y: -12, duration: 0.5, stagger: 0.05
+                  }, '-=1.0');
+
+                /* --- 2. 捲動進場：由上到下所有主要區塊、卡片與容器 --- */
+                var items = gsap.utils.toArray('[data-anim]');
+                gsap.set(items, { y: 30, autoAlpha: 0, willChange: 'transform, opacity' });
+
+                /* 以上 tween 都已寫入 inline 樣式，這時才拿掉 CSS 的預設隱藏，
+                   動畫開始前不會閃一下，GSAP 沒載入時也還有 3.5 秒保險絲。 */
+                reveal();
+
+                ScrollTrigger.batch(items, {
+                    start: 'top 88%',
+                    once: true,
+                    batchMax: 5,
+                    onEnter: function (els) {
+                        gsap.to(els, {
                             y: 0,
                             autoAlpha: 1,
-                            duration: 0.55,
-                            ease: 'power2.out',
-                            stagger: 0.1,
+                            duration: 0.85,
+                            ease: 'power3.out',
+                            stagger: 0.09,
                             overwrite: 'auto',
                             clearProps: 'willChange'
-                        })
-                    });
-
-                    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-                        const interactiveElements = gsap.utils.toArray(
-                            'a, button, .card, .portfolio-card'
-                        );
-                        interactiveElements.forEach((element) => {
-                            const isCard = element.matches('.card, .portfolio-card');
-                            const lift = isCard ? -8 : -2;
-                            const scale = isCard ? 1.015 : 1.02;
-
-                            element.addEventListener('pointerenter', () => {
-                                gsap.to(element, {
-                                    y: lift,
-                                    scale,
-                                    duration: 0.25,
-                                    ease: 'power2.out',
-                                    overwrite: 'auto'
-                                });
-                            });
-                            element.addEventListener('pointerleave', () => {
-                                gsap.to(element, {
-                                    y: 0,
-                                    scale: 1,
-                                    duration: 0.3,
-                                    ease: 'power2.out',
-                                    overwrite: 'auto'
-                                });
-                            });
                         });
                     }
+                });
 
-                    requestAnimationFrame(() => ScrollTrigger.refresh());
+                /* --- 3. 閱讀進度條：告訴使用者目前在頁面的哪個位置 --- */
+                gsap.to('.scroll-progress', {
+                    scaleX: 1,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: document.documentElement,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 0.3
+                    }
+                });
+
+                /* --- 4. 導覽列狀態：離開首屏後加深陰影，強化「浮在內容之上」 --- */
+                ScrollTrigger.create({
+                    start: 'top -12',
+                    end: 99999,
+                    toggleClass: { targets: '.site-header', className: 'is-scrolled' }
+                });
+
+                /* --- 5. 影像視差：兩張主要照片隨捲動微幅位移，建立景深 --- */
+                gsap.fromTo('.hero-media img', { yPercent: 0 }, {
+                    yPercent: -8,
+                    ease: 'none',
+                    scrollTrigger: { trigger: '.hero-media', start: 'top top', end: 'bottom top', scrub: 0.6 }
+                });
+
+                gsap.fromTo('.compost-media img', { yPercent: 0 }, {
+                    yPercent: -9,
+                    ease: 'none',
+                    scrollTrigger: { trigger: '.compost-media', start: 'top bottom', end: 'bottom top', scrub: 0.6 }
+                });
+
+                /* --- 6. 微互動：可點擊元素的懸浮回饋（transform 由 GSAP 負責，
+                       陰影與底色交給 CSS transition，兩邊不互相覆寫） --- */
+                if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                    var bind = function (targets, over) {
+                        var out = { y: 0, x: 0, scale: 1, duration: 0.45, ease: 'power2.out', overwrite: 'auto' };
+                        gsap.utils.toArray(targets).forEach(function (el) {
+                            var enter = function () {
+                                gsap.to(el, Object.assign({ duration: 0.32, ease: 'power2.out', overwrite: 'auto' }, over));
+                            };
+                            var leave = function () {
+                                gsap.to(el, out);
+                            };
+                            el.addEventListener('pointerenter', enter);
+                            el.addEventListener('pointerleave', leave);
+                            el.addEventListener('focusin', enter);
+                            el.addEventListener('focusout', leave);
+                            cleanups.push(function () {
+                                el.removeEventListener('pointerenter', enter);
+                                el.removeEventListener('pointerleave', leave);
+                                el.removeEventListener('focusin', enter);
+                                el.removeEventListener('focusout', leave);
+                                gsap.set(el, { clearProps: 'transform' });
+                            });
+                        });
+                    };
+
+                    /* 卡片：浮起 + 極輕微放大，陰影由 CSS transition 接手 */
+                    bind('.ethic, .faq-item, .portfolio-card', { y: -7, scale: 1.012 });
+                    /* 課程列表：橫向推進，比浮起更符合「一列一列讀下去」 */
+                    bind('.course-row', { x: 8 });
+                    /* 按鈕與連結：按得下去的手感 */
+                    bind('.btn, .submit-btn', { y: -2, scale: 1.025 });
                 }
-            );
-        });
+
+                /* --- 7. 常見問題展開：答案淡入，讓開合有明確的狀態轉換 --- */
+                gsap.utils.toArray('.faq-item').forEach(function (item) {
+                    var answer = item.querySelector('.faq-answer');
+                    if (!answer) { return; }
+                    var onToggle = function () {
+                        if (item.open) {
+                            gsap.fromTo(answer,
+                                { autoAlpha: 0, y: -8 },
+                                { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' }
+                            );
+                        }
+                    };
+                    item.addEventListener('toggle', onToggle);
+                    cleanups.push(function () { item.removeEventListener('toggle', onToggle); });
+                });
+
+                /* 版面在字型與圖片載入後才穩定，此時重算一次觸發點 */
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+                }
+                requestAnimationFrame(function () { ScrollTrigger.refresh(); });
+
+                return function () {
+                    cleanups.forEach(function (fn) { fn(); });
+                    cleanups.length = 0;
+                    reveal();
+                };
+            });
+
+            /* 使用者偏好減少動態時，matchMedia 上面那段不會執行，直接把內容顯示出來 */
+            mm.add('(prefers-reduced-motion: reduce)', function () { reveal(); });
+        }
+
+        if (document.readyState === 'complete') {
+            boot();
+        } else {
+            window.addEventListener('load', boot);
+        }
+    })();
     </script>
 </body>
 </html>
-
