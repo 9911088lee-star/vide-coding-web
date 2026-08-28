@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樸門永續設計推廣網 Permaculture Hub</title>
+    <meta name="description" content="探索樸門設計（Permaculture）的智慧，從廚餘堆肥、食物森林到永續生活，重塑人與土地的連結。">
+    <link rel="canonical" href="https://share.gemini.google/2ddLFPcp5FGc">
+
+    <!-- Open Graph：Facebook、LINE 等社群分享預覽 -->
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="樸門永續設計推廣網 Permaculture Hub">
+    <meta property="og:title" content="樸門永續設計推廣網 Permaculture Hub">
+    <meta property="og:description" content="探索樸門設計（Permaculture）的智慧，從廚餘堆肥、食物森林到永續生活，重塑人與土地的連結。">
+    <meta property="og:url" content="https://share.gemini.google/2ddLFPcp5FGc">
+    <meta property="og:image" content="https://share.gemini.google/2ddLFPcp5FGc/og-cover.png">
+    <meta property="og:image:secure_url" content="https://share.gemini.google/2ddLFPcp5FGc/og-cover.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1717">
+    <meta property="og:image:height" content="916">
+    <meta property="og:image:alt" content="樸門永續設計推廣網形象圖">
+
+    <!-- X（Twitter）分享預覽 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="樸門永續設計推廣網 Permaculture Hub">
+    <meta name="twitter:description" content="探索樸門設計（Permaculture）的智慧，從廚餘堆肥、食物森林到永續生活，重塑人與土地的連結。">
+    <meta name="twitter:image" content="https://share.gemini.google/2ddLFPcp5FGc/og-cover.png">
+    <meta name="twitter:image:alt" content="樸門永續設計推廣網形象圖">
+    <style>
+        /* 基礎樣式重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background-color: #f7fafc;
+        }
+
+        /* 導覽列 */
+        header {
+            background-color: #2f855a;
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Hero 區塊 */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://picsum.photos/1200/400') center/cover;
+            color: white;
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 通用版面 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #276749;
+            margin-bottom: 2rem;
+        }
+
+        /* 特色 Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card h3 {
+            color: #2f855a;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 廚餘回收箱區塊 */
+        .compost-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        .compost-img {
+            flex: 1 1 300px;
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .compost-text {
+            flex: 2 1 400px;
+        }
+
+        /* 報名表單 */
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #2f855a;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #276749;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #1a202c;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* RWD 調整 */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <h2>樸門永續生活</h2>
+            <ul>
+                <li><a href="#features">特色核心</a></li>
+                <li><a href="#compost">廚餘回收箱</a></li>
+                <li><a href="#courses">課程介紹</a></li>
+                <li><a href="#tools">推薦工具</a></li>
+                <li><a href="#register">線上報名</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>順應自然，設計永續生活</h1>
+        <p>探索樸門設計（Permaculture）的智慧，重塑人與土地的連結。</p>
+    </section>
+
+    <section id="features" class="container">
+        <h2 class="section-title">樸門三大核心倫理</h2>
+        <div class="grid-3">
+            <div class="card">
+                <h3>照顧地球</h3>
+                <p>維護所有生命系統繼續生存與繁殖的能力，重建土壤與生態豐富度。</p>
+            </div>
+            <div class="card">
+                <h3>照顧人類</h3>
+                <p>滿足食物、住宅、社群等基本需求，實現自給自足且健康的永續生活。</p>
+            </div>
+            <div class="card">
+                <h3>分享多餘</h3>
+                <p>將多餘的資源（資源、時間、能源）回饋到前兩個目標，促進循環生態。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="compost" class="container">
+        <h2 class="section-title">樸門經典設計：厚層堆肥與廚餘系統</h2>
+        <div class="compost-section">
+            <img src="https://picsum.photos/600/400?random=1" alt="樸門廚餘回收箱設計" class="compost-img">
+            <div class="compost-text">
+                <h3>厚層廚餘回收箱（Mulch Composting）</h3>
+                <p>運用「三明治堆肥法」或「蚯蚓塔」設計，將家庭廚餘與園藝落葉無臭轉化為肥沃黑土。</p>
+                <br>
+                <ul>
+                    <li><strong>零廢棄循環：</strong> 降低垃圾量，直接原地轉化為養分。</li>
+                    <li><strong>防臭設計：</strong> 透過碳氮比調整與覆蓋層，杜絕異味與蚊蟲。</li>
+                    <li><strong>土壤升級：</strong> 豐富微生物菌群，提升保水與透氣性。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="courses" class="container">
+        <h2 class="section-title">最新工作坊與課程</h2>
+        <div class="grid-3">
+            <div class="card">
+                <h3>樸門 PDC 基礎入門課</h3>
+                <p><strong>對象：</strong> 初學者、都市農夫</p>
+                <p>學習基礎設計原則、水資源收集與微氣候分析，掌握自給自足第一步。</p>
+            </div>
+            <div class="card">
+                <h3>居家廚餘堆肥實作班</h3>
+                <p><strong>對象：</strong> 社區居民、家庭主婦</p>
+                <p>手把手教你組裝無臭廚餘回收箱，打造陽台食物森林小基地。</p>
+            </div>
+            <div class="card">
+                <h3>食物森林（Food Forest）規劃</h3>
+                <p><strong>對象：</strong> 地主、農場管理者</p>
+                <p>學習多層次立體種植，打造低維護成本、高產量的自然生態果園。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tools" class="container">
+        <h2 class="section-title">樸門實作工具建議</h2>
+        <div class="grid-3">
+            <div class="card">
+                <h3>不翻土廣口叉 (Broadfork)</h3>
+                <p>能在不破壞土壤微生物結構的前提下鬆土，維護健康土層。</p>
+            </div>
+            <div class="card">
+                <h3>雨水收集系統套件</h3>
+                <p>利用屋頂水溝與過濾桶，實現屋頂與花園水資源重覆利用。</p>
+            </div>
+            <div class="card">
+                <h3>廚餘蚯蚓塔桶 (Worm Tower)</h3>
+                <p>直接埋入菜圃中，讓紅蚯蚓協助在根系旁就地分解廚餘並施肥。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="register" class="container">
+        <h2 class="section-title">課程線上報名</h2>
+        <div class="form-container">
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" name="name" required placeholder="請輸入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label for="email">電子郵件</label>
+                    <input type="email" id="email" name="email" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="course">選擇報名課程</label>
+                    <select id="course" name="course" required>
+                        <option value="">-- 請選擇課程 --</option>
+                        <option value="pdc">樸門 PDC 基礎入門課</option>
+                        <option value="compost">居家廚餘堆肥實作班</option>
+                        <option value="food-forest">食物森林規劃工作坊</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">備註或提問（選填）</label>
+                    <textarea id="message" name="message" rows="4" placeholder="是否有相關種植經驗？"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">送出報名資訊</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 樸門永續設計推廣網 Permaculture Hub. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
