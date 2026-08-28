@@ -1,0 +1,20 @@
+# Allow search and AI discovery crawlers to access public content.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://9911088lee-star.github.io/vide-coding-web/sitemap.xml
