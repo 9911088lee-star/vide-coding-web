@@ -92,6 +92,10 @@
             margin: 0;
             padding: 0;
         }
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
@@ -103,7 +107,7 @@
         header {
             background-color: #276749;
             color: white;
-            padding: 1rem 2rem;
+            padding: 1rem clamp(1rem, 4vw, 2rem);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -112,18 +116,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem 2rem;
             max-width: 1100px;
             margin: 0 auto;
+        }
+        nav h2 {
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            white-space: nowrap;
         }
         nav ul {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 0.5rem clamp(0.5rem, 2vw, 1.5rem);
+            flex-wrap: wrap;
+            justify-content: center;
         }
         nav a {
             color: white;
             text-decoration: none;
             font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            white-space: nowrap;
         }
         nav a:focus-visible, .submit-btn:focus-visible,
         .form-group input:focus-visible, .form-group select:focus-visible,
@@ -137,18 +152,27 @@
             background: linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.58)), url('https://picsum.photos/1200/400') center/cover;
             color: white;
             text-align: center;
-            padding: 5rem 1rem;
+            padding: clamp(3.5rem, 9vw, 5rem) 1rem;
         }
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 2.5rem);
             margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+        .hero p {
+            max-width: 680px;
+            margin: 0 auto;
+            padding-inline: 0.5rem;
         }
 
         /* 通用版面 */
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 3rem 1.5rem;
+            padding: clamp(2.5rem, 6vw, 3rem) clamp(1rem, 4vw, 1.5rem);
+        }
+        section[id] {
+            scroll-margin-top: 7rem;
         }
         .section-title {
             text-align: center;
@@ -179,7 +203,7 @@
         /* 特色 Grid */
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: 1.5rem;
         }
         .card {
@@ -206,7 +230,7 @@
         .compost-img {
             flex: 1 1 300px;
             width: 100%;
-            height: 250px;
+            height: clamp(220px, 35vw, 250px);
             object-fit: cover;
             border-radius: 8px;
         }
@@ -232,9 +256,11 @@
         }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
+            min-width: 0;
             padding: 0.75rem;
             border: 1px solid #cbd5e0;
             border-radius: 4px;
+            font: inherit;
         }
         .submit-btn {
             width: 100%;
@@ -269,6 +295,30 @@
         .faq-list p {
             margin-top: 0.75rem;
         }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+        .portfolio-card {
+            background: #1a202c;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        }
+        .portfolio-video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            border: 0;
+            background: #0f172a;
+        }
+        .portfolio-card h3 {
+            color: white;
+            font-size: 1rem;
+            padding: 0.8rem 1rem;
+            text-align: center;
+        }
 
         /* 頁尾 */
         footer {
@@ -279,14 +329,110 @@
             margin-top: 2rem;
         }
 
-        /* RWD 調整 */
+        /* 平板與手機的版面調整 */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            nav {
+                align-items: flex-start;
+            }
+            nav ul {
+                justify-content: flex-end;
+            }
+            nav a {
+                padding-inline: 0.15rem;
+            }
+            .compost-section {
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+        }
         @media (max-width: 768px) {
             nav {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.75rem;
+                text-align: center;
+            }
+            nav ul {
+                width: 100%;
+                gap: 0.35rem 0.5rem;
+            }
+            nav a {
+                display: block;
+                padding: 0.6rem 0.65rem;
+                min-height: 44px;
+            }
+            .section-title {
+                font-size: clamp(1.5rem, 6vw, 1.8rem);
+                margin-bottom: 1.5rem;
             }
             .hero h1 {
-                font-size: 1.8rem;
+                font-size: clamp(1.9rem, 8vw, 2.25rem);
+                line-height: 1.25;
+            }
+            .hero p {
+                font-size: 0.98rem;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .card, .compost-section, .form-container {
+                padding: 1.25rem;
+            }
+            .card {
+                border-radius: 10px;
+            }
+            .compost-section {
+                gap: 1.25rem;
+            }
+            .compost-img {
+                flex-basis: 100%;
+                height: 220px;
+            }
+            .compost-text {
+                flex-basis: 100%;
+            }
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+            .form-group input, .form-group select, .form-group textarea,
+            .submit-btn {
+                font-size: 16px;
+            }
+            .faq-list details {
+                padding: 0.9rem 1rem;
+            }
+            .portfolio-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+            }
+        }
+        @media (max-width: 380px) {
+            nav h2 {
+                font-size: 1.25rem;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            nav a {
+                width: 100%;
+            }
+            .hero {
+                padding-inline: 0.75rem;
+            }
+            .hero p, .section-intro {
+                font-size: 0.95rem;
+            }
+            .container {
+                padding-inline: 0.875rem;
+            }
+            .form-container, .compost-section {
+                border-radius: 6px;
+            }
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                max-width: 280px;
+                margin-inline: auto;
             }
         }
     </style>
@@ -440,6 +586,29 @@
                 </div>
                 <button type="submit" class="submit-btn" aria-label="送出課程報名資訊">送出報名資訊</button>
             </form>
+        </div>
+    </section>
+
+    <section id="portfolio" class="container" aria-labelledby="portfolio-title">
+        <h2 id="portfolio-title" class="section-title">作品集展示</h2>
+        <p class="section-intro">樸門設計影像作品：以純畫面方式呈現，影片會自動播放、靜音並循環播放。</p>
+        <div class="portfolio-grid" aria-label="樸門設計影片作品集">
+            <article class="portfolio-card">
+                <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/cRXOfBwiPHM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=cRXOfBwiPHM&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 1" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <h3>樸門設計</h3>
+            </article>
+            <article class="portfolio-card">
+                <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/XTlLFQANtwU?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=XTlLFQANtwU&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 2" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <h3>樸門設計</h3>
+            </article>
+            <article class="portfolio-card">
+                <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/bcFnNsTVntk?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=bcFnNsTVntk&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 3" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <h3>樸門設計</h3>
+            </article>
+            <article class="portfolio-card">
+                <iframe class="portfolio-video" src="https://www.youtube-nocookie.com/embed/n9VTjZdNvEQ?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=n9VTjZdNvEQ&amp;playsinline=1&amp;controls=0&amp;rel=0&amp;modestbranding=1" title="樸門設計作品 4" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <h3>樸門設計</h3>
+            </article>
         </div>
     </section>
 
